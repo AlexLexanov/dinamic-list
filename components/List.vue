@@ -57,10 +57,10 @@ export default {
     },
   },
   methods: {
-    checkAll(val) {
-      if (val.categories) {
-        val.categories.map((item) => {
-          item.checked = val.checked
+    checkAll({ categories, checked }) {
+      if (categories) {
+        categories.map((item) => {
+          item.checked = checked
           if (item.categories) this.checkAll(item)
         })
       }
@@ -71,16 +71,16 @@ export default {
       return ''
     },
     check(val) {
-      let category = val.categories
-      if (category) {
-        const count = category.filter((item) => item.checked === true).length
-        if (count < category.length && count) {
+      const { categories } = val
+      if (categories) {
+        const count = categories.filter(({ checked }) => checked === true).length
+        if (count < categories.length && count) {
           this.indeterminate = true
           val.checked = false
         } else if (!count) {
           val.checked = false
           this.indeterminate = false
-        } else if (count === category.length) {
+        } else if (count === categories.length) {
           this.indeterminate = false
           val.checked = true
         }
